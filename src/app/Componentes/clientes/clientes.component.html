@@ -1,0 +1,59 @@
+<div class="container col-sm-11 col-md-10 col-lg-8">
+  <div class="card shadow">
+    <div class="card-header bg-danger text-white text-center font-weight-bold">
+      Mantenimiento de clientes
+    </div>
+    <div class="card-body">
+      <button class="btn btn-info" (click)="limpiar();open(content,'nuevo')">Nuevo cliente</button>
+    </div>
+    <div class="card-footer">
+      <div class="responsive">
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>Cedula</th>
+              <th>Nombre</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listClientes">
+              <td>{{ item.Cedula }}</td>
+              <td>{{ item.Nombre }}</td>
+              <td><button class="btn btn-warning" (click)="editar(item);open(content,'editar')">Editar</button></td>
+              <td><button class="btn btn-danger" (click)="confirm(item.Cedula)">Eliminar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar Clientes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="frmClientes">
+      <div class="form-group">
+        <label for="">Cédula</label>
+        <input type="text" formControlName="cedula" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="">Nombre</label>
+        <input type="text" formControlName="nombre" class="form-control">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close()">cancelar</button>
+    <button type="button" class="btn btn-outline-warning" [disabled]="frmClientes.invalid" (click)="save()" *ngIf="this.accion === 'nuevo'">Guardar</button>
+    <button type="button" class="btn btn-outline-warning" [disabled]="frmClientes.invalid" (click)="update()" *ngIf="this.accion === 'editar'">Actualizar</button>
+  </div>
+</ng-template>
+
